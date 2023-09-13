@@ -116,7 +116,6 @@ class _GirisYapState extends State<GirisYap> {
               ),
               onTap: () async {
                 if(_kullaniciAdiController.text == "dreamwms" && _sifreController.text == "Wms12Dream"){
-
                   var pref = await SharedPreferences.getInstance();
                   pref.setString("name", "dreamwms");
                   pref.setString("pass", "Wms12Dream");

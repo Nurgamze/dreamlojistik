@@ -392,8 +392,6 @@ class _AnaEkranState extends State<AnaEkran> {
             ..create(recursive: true);
         }
       }
-
-
     }
     if(response.statusCode == 200) return true;
     else return false;

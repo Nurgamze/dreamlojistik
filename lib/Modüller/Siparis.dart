@@ -1,8 +1,6 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../DepolarArasiSiparisFisi.dart';
 
 
@@ -78,7 +76,7 @@ class _SiparisState extends State<Siparis> {
                       width: (MediaQuery.of(context).size.width-35)/2,
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DepolarArasiSiparisFisi()));
+                     // Navigator.push(context, MaterialPageRoute(builder: (context) => DepolarArasiSiparisFisi()));
                     }
                 ),
                 SizedBox(width: 5,),
@@ -172,8 +170,5 @@ class _SiparisState extends State<Siparis> {
       )
     );
   }
-
-
 }
 
- */
