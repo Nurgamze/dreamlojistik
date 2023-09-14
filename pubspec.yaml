@@ -52,6 +52,7 @@ dependencies:
   fluttertoast:
   uuid:
   shared_preferences:
+  path_provider_windows:
 
 dev_dependencies:
   flutter_test:

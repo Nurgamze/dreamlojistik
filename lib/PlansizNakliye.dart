@@ -1,21 +1,17 @@
-
-/*
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_picker/Picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
-
 import 'LocalDB/DatabaseHelper.dart';
 import 'LocalDB/EvraklarDB.dart';
 import 'Modeller/Foksiyonlar.dart';
@@ -30,7 +26,8 @@ class PlansizNakliye extends StatefulWidget {
   _PlansizNakliyeState createState() => _PlansizNakliyeState();
 }
 
-final PlansizNakliyeDataGridSource _plansizNakliyeDataGridSource = PlansizNakliyeDataGridSource();
+ PlansizNakliyeDataGridSource _plansizNakliyeDataGridSource = PlansizNakliyeDataGridSource();
+
 
 class _PlansizNakliyeState extends State<PlansizNakliye> {
 
@@ -182,46 +179,48 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                                 padding: EdgeInsets.only(bottom: 1,left: 1,right: 1),
                                 child: SfDataGridTheme(
                                   data: SfDataGridThemeData(
-                                      selectionStyle: DataGridCellStyle(
-                                          backgroundColor: Colors.blue,
-                                          textStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                          )
-                                      ),
-                                      headerStyle: DataGridHeaderCellStyle(
+                                     /* selectionStyle: DataGridCellStyle(
+                                          backgroundColor: Colors.blue, textStyle: TextStyle( fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white,
+                                      )),*/
+                                     //gridLineColor: Colors.blue,
+                                     selectionColor: Colors.yellow,
+                                    // columnResizeIndicatorColor: Colors.blue,
+                                     /* headerStyle: DataGridHeaderCellStyle(
                                           sortIconColor: Colors.white,
-                                          textStyle:
-                                          TextStyle(color: Colors.white,fontSize: 12),
-                                          backgroundColor: Color.fromRGBO(235, 90, 12, 1))),
+                                          textStyle: TextStyle(color: Colors.white,fontSize: 12),
+                                          backgroundColor: Color.fromRGBO(235, 90, 12, 1))*/
+                                    headerColor: Color.fromRGBO(235, 90, 12, 1),
+                                  ),
                                   child: SfDataGrid(
+                                    columnWidthMode: ColumnWidthMode.fill,
                                     selectionMode: SelectionMode.multiple,
+                                    source: _plansizNakliyeDataGridSource,
                                     onCellTap: (value) {
                                       Future.delayed(Duration(milliseconds: 50), (){
                                         FocusScope.of(context).requestFocus(new FocusNode());
                                         secilenRow = value.rowColumnIndex.rowIndex;
                                       });
-
                                     },
-                                    source: _plansizNakliyeDataGridSource,
                                     columns: <GridColumn> [
-                                      GridTextColumn(mappingName: 'id',headerText : "ID",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,headerPadding: EdgeInsets.only(left:10,right: 10),),
-                                      GridTextColumn(mappingName: 'girisDepoAdi',headerText : "GİRİŞ DEPO",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,minimumWidth : 120,headerPadding: EdgeInsets.only(left:10,right: 10),),
-                                      GridTextColumn(mappingName: 'cikisDepoAdi',headerText : "ÇIKIŞ DEPO",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,minimumWidth : 140,headerPadding: EdgeInsets.only(left:10,right: 10),),
-                                      GridTextColumn(mappingName: 'tarih',headerText : "TARİH",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,minimumWidth : 140,headerPadding: EdgeInsets.only(left:10,right: 10),),
+                                      GridColumn(columnName: 'id',label : Container( child: Text("ID"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                                      GridColumn(columnName: 'girisDepoAdi',label : Container( child: Text("GİRİŞ DEPO"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                                      GridColumn(columnName: 'cikisDepoAdi',label : Container( child: Text("ÇIKIŞ DEPO"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                                      GridColumn(columnName: 'tarih',label : Container( child: Text("TARİH"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
                                     ],
+
                                     gridLinesVisibility: GridLinesVisibility.vertical,
                                     headerGridLinesVisibility: GridLinesVisibility.vertical,
                                     headerRowHeight: 30,
                                     rowHeight: 30,
                                     controller: this._dataGridController,
-                                    onQueryRowStyle: (QueryRowStyleArgs args) {
-                                      if (args.rowIndex % 2 == 0) {
-                                        return DataGridCellStyle(backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
-                                      }
-                                      return DataGridCellStyle(backgroundColor: Colors.grey[300],textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
-                                    },
+
+                                    //satırlar bir beyaz bir gri olsun
+                                   /*  onQueryRowStyle: (QueryRowStyleArgs args) {
+                                    if (args.rowIndex % 2 == 0) {
+                                    return DataGridCellStyle(backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
+                                    }
+                                    return DataGridCellStyle(backgroundColor: Colors.grey[300],textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
+                                    }*/
                                   ),
                                 ),
                               ),
@@ -294,31 +293,24 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                         onTap: () {
                           print(plansizNakliyeGridList);
                           if(aktarildiGostersinMi){
-                            Toast.show(
-                                "Gönderilen evraklar üzerinde işlem yapamazsınız.",
-                                context,
-                                duration: 1,
-                                gravity: 3,
+                            Fluttertoast.showToast(
+                                msg: "Gönderilen evraklar üzerinde işlem yapamazsınız.",
+                                gravity: ToastGravity.CENTER,
                                 backgroundColor: Colors.red.shade600,
                                 textColor: Colors.white,
-                                backgroundRadius: 5
                             );
                             return ;
                           }
                           if(secilenRow<0){
-                            Toast.show(
-                                "Tablodan açmak istediğiniz evrağı seçiniz.",
-                                context,
-                                duration: 1,
-                                gravity: 3,
+                            Fluttertoast.showToast(
+                                msg: 'Tablodan açmak istediğiniz evrağı seçiniz.',
+                                gravity: ToastGravity.CENTER,
                                 backgroundColor: Colors.red.shade600,
                                 textColor: Colors.white,
-                                backgroundRadius: 5
                             );
                           }else{
                             _dataGridController.selectedIndex = -1;
-
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliyeEvrak(plansizNakliyeGridList[secilenRow-1].id,plansizNakliyeGridList[secilenRow-1].girisDepoAdi)));
+                           // Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliyeEvrak(plansizNakliyeGridList[secilenRow-1].id,plansizNakliyeGridList[secilenRow-1].girisDepoAdi)));
                           }
                         },
                       ),
@@ -347,26 +339,20 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                         ),
                         onTap: () {
                           if(aktarildiGostersinMi){
-                            Toast.show(
-                                "Gönderilen evraklar üzerinde işlem yapamazsınız.",
-                                context,
-                                duration: 2,
-                                gravity: 3,
+                            Fluttertoast.showToast(
+                                msg:"Gönderilen evraklar üzerinde işlem yapamazsınız.",
+                                gravity: ToastGravity.CENTER,
                                 backgroundColor: Colors.red.shade600,
                                 textColor: Colors.white,
-                                backgroundRadius: 5
                             );
                             return ;
                           }
                           if(secilenRow<0){
-                            Toast.show(
-                                "Tablodan silmek istediğiniz evrağı seçiniz.",
-                                context,
-                                duration: 1,
-                                gravity: 3,
+                            Fluttertoast.showToast(
+                                msg: "Tablodan silmek istediğiniz evrağı seçiniz.",
+                                gravity: ToastGravity.CENTER,
                                 backgroundColor: Colors.red.shade600,
                                 textColor: Colors.white,
-                                backgroundRadius: 5
                             );
                           }else{
                             setState(() {
@@ -394,26 +380,20 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                         ),
                         onTap: () async {
                           if(aktarildiGostersinMi){
-                            Toast.show(
-                                "Gönderilen evrakları tekrar gönderemezsiniz. Gönderilmeyen evraklardan seçip işleme öyle devam ediniz.",
-                                context,
-                                duration: 2,
-                                gravity: 3,
+                            Fluttertoast.showToast(
+                                msg: "Gönderilen evrakları tekrar gönderemezsiniz. Gönderilmeyen evraklardan seçip işleme öyle devam ediniz.",
+                                gravity: ToastGravity.CENTER,
                                 backgroundColor: Colors.red.shade600,
                                 textColor: Colors.white,
-                                backgroundRadius: 5
                             );
                             return ;
                           }
                           if(_dataGridController.selectedRows.length == 0) {
-                            Toast.show(
-                                "Tablodan göndermek istediğiniz evrakları seçiniz",
-                                context,
-                                duration: 1,
-                                gravity: 3,
+                            Fluttertoast.showToast(
+                                msg:"Tablodan göndermek istediğiniz evrakları seçiniz",
+                                gravity: ToastGravity.CENTER,
                                 backgroundColor: Colors.red.shade600,
                                 textColor: Colors.white,
-                                backgroundRadius: 5
                             );
                             return;
                           }
@@ -456,36 +436,44 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Expanded(child: FlatButton(
-                        height: 45,
-                        child: Text("İptal Et",style: TextStyle(color: Colors.grey.shade200),),
-                        color: Colors.red,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide(color: Colors.red,)
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),),
+                      Expanded(
+                        child: SizedBox(
+                          height: 45,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  side: BorderSide(color: Colors.red,)
+                              ), ),
+                          child: Text("İptal Et",style: TextStyle(color: Colors.grey.shade200),),
+
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                      ),
+                        ),),
                       SizedBox(
                         width: 10,
                       ),
-                      Expanded(child: FlatButton(
-                        height: 45,
+                      Expanded(
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor:Colors.green,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                side: BorderSide(color: Colors.green)
+                            ),),
                         child: Text("Gönder",style: TextStyle(color: Colors.grey.shade200),),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide(color: Colors.green)
-                        ),
-                        color: Colors.green,
+
                         onPressed: () async {
-                          bool intVarMi = await Foksiyonlar.internetDurumu(context);
-                          if(!intVarMi) return;
-                          Navigator.pop(context);
-                          _evrakGonder();
+                            bool intVarMi = await Foksiyonlar.internetDurumu(context);
+                            if(!intVarMi) return;
+                            Navigator.pop(context);
+                            _evrakGonder();
                         },
-                      ))
+                      ),
+                          ))
                     ],
                   ),
                 )
@@ -519,39 +507,45 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Expanded(child: FlatButton(
-                        height: 45,
-                        child: Text("İptal Et",style: TextStyle(color: Colors.grey.shade200),),
-                        color: Colors.red,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide(color: Colors.red,)
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),),
+                      Expanded(
+                        child: SizedBox(
+                          height: 45,
+                          child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor:Colors.red,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                side: BorderSide(color: Colors.red,)
+                            ), ),
+                          child: Text("İptal Et",style: TextStyle(color: Colors.grey.shade200),),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                      ),
+                        ),),
                       SizedBox(
                         width: 10,
                       ),
-                      Expanded(child: FlatButton(
-                        height: 45,
+                      Expanded(
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor:Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  side: BorderSide(color: Colors.green)
+                              ), ),
                         child: Text("Sil",style: TextStyle(color: Colors.grey.shade200),),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide(color: Colors.green)
-                        ),
-                        color: Colors.green,
                         onPressed: () async {
-                          var result = await _sayimDBHelper.sayimEvrakSil(sayimlarSayfasiGridList[secilenRow-1].evrakAdi);
-                          if(result > 0){
-                            setState(() {
-                              sayimlarSayfasiGridList.removeAt(secilenRow-1);
-                            });
-                            Navigator.pop(context);
-                          }
+                            var result = await _sayimDBHelper.sayimEvrakSil((sayimlarSayfasiGridList[secilenRow-1].evrakAdi).toString());
+                            if(result > 0){
+                              setState(() {
+                                sayimlarSayfasiGridList.removeAt(secilenRow-1);
+                              });
+                              Navigator.pop(context);
+                            }
                         },
-                      ))
+                      ),
+                          ))
                     ],
                   ),
                 )
@@ -566,7 +560,7 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
     List<int> aktarilacakEvrakIds = [];
     gidenVeriler = [];
     for(var evrak in _dataGridController.selectedRows){
-      SayimlarSayfasiDataGrid eklenecekEvrak = evrak;
+      SayimlarSayfasiDataGrid eklenecekEvrak = evrak as SayimlarSayfasiDataGrid;
       if(eklenecekEvrak.aktarildiMi == 1) continue;
       var kalemler = await _sayimDBHelper.sayimKalemleriGetir(eklenecekEvrak.id ?? 0);
       aktarilacakEvrakIds.add(eklenecekEvrak.id ?? 0);   //Aktarılacak id leri api işlemi başarılı olursa aktarıldı işaretlicez.
@@ -596,7 +590,7 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
       "data": gidenVeriler.toString(),
     });
     if(gidenVeriler.isEmpty) return;
-    var response = await http.post("${Sabitler.url}/api/SayimAktar",
+    var response = await http.post(Uri.parse("${Sabitler.url}/api/SayimAktar"),
         headers: {
           "apiKey": Sabitler.apiKey,
           'Content-Type': 'application/json; charset=UTF-8',
@@ -612,14 +606,11 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
       }
 
     }
-    Toast.show(
-        "Gönderme işlemi başarıyla tamamlandı.",
-        context,
-        duration: 1,
-        gravity: 3,
+    Fluttertoast.showToast(
+        msg:"Gönderme işlemi başarıyla tamamlandı.",
+        gravity: ToastGravity.CENTER,
         backgroundColor: Colors.green.shade600,
         textColor: Colors.white,
-        backgroundRadius: 5
     );
   }
 
@@ -733,12 +724,12 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                                   borderRadius: BorderRadius.circular(5)
                               ),
                               width: MediaQuery.of(context).size.width/1.1,
-                              child: FlatButton(
+                              child: ElevatedButton(
                                 child: Text(context.watch<StateHelper>().plansizCikis),
                                 onPressed: () {
                                   Picker(
                                       adapter: PickerDataAdapter<String>(
-                                        pickerdata: JsonDecoder().convert(depoList.toString()),
+                                        pickerData: JsonDecoder().convert(depoList.toString()),
                                         isArray: true,
                                       ),
                                       hideHeader: true,
@@ -747,8 +738,9 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                                       textAlign: TextAlign.center,
                                       confirmText: "Tamam",
                                       selectedTextStyle: TextStyle(color: Colors.indigo.shade800),
-                                      cancel: FlatButton(onPressed: () {
-                                        Navigator.pop(context);
+                                      cancel: ElevatedButton(
+                                          onPressed: () {
+                                             Navigator.pop(context);
                                       }, child: Text("İptal")),
                                       onConfirm: (Picker picker, List value) {
                                         context.read<StateHelper>().setPlansizCikis(picker.getSelectedValues().first);
@@ -777,12 +769,12 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                                   borderRadius: BorderRadius.circular(5)
                               ),
                               width: MediaQuery.of(context).size.width/1.1,
-                              child: FlatButton(
+                              child: ElevatedButton(
                                 child: Text(context.watch<StateHelper>().plansizGiris),
                                 onPressed: () {
                                   Picker(
                                       adapter: PickerDataAdapter<String>(
-                                        pickerdata: JsonDecoder().convert(depoList.toString()),
+                                        pickerData: JsonDecoder().convert(depoList.toString()),
                                         isArray: true,
                                       ),
                                       hideHeader: true,
@@ -791,8 +783,9 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                                       textAlign: TextAlign.center,
                                       confirmText: "Tamam",
                                       selectedTextStyle: TextStyle(color: Colors.indigo.shade800),
-                                      cancel: FlatButton(onPressed: () {
-                                        Navigator.pop(context);
+                                      cancel: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
                                       }, child: Text("İptal")),
                                       onConfirm: (Picker picker, List value) {
                                         context.read<StateHelper>().setPlansizGiris(picker.getSelectedValues().first);
@@ -848,70 +841,67 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(child: FlatButton(
-                          height: 45,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              side: BorderSide(color: Colors.red)
-                          ),
-                          color: Colors.red,
-                          child: Text("İptal",style: TextStyle(color: Colors.white),),
-                          onPressed: () => Navigator.pop(context),
-                        ),),
+                        Expanded(
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor:Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  side: BorderSide(color: Colors.red)
+                              ), ),
+                            child: Text("İptal",style: TextStyle(color: Colors.white),),
+                            onPressed: () => Navigator.pop(context),
+                        ),
+                          ),),
                         SizedBox(width: 2),
-                        Expanded(child: FlatButton(
-                          height: 45,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              side: BorderSide(color: Colors.green)
-                          ),
-                          color: Colors.green,
-                          child: Text("Oluştur",style: TextStyle(color: Colors.white),),
-                          onPressed: () async {
-                            if(cikisDepo == "Depo Seçiniz"  || girisDepo == "Depo Seçiniz"){
-                              Toast.show(
-                                  "Evrak oluşturabilmek için çıkış ve giriş depolarını seçmeniz gerekmektedir",
-                                  context,
-                                  duration: 1,
-                                  gravity: 3,
-                                  backgroundColor: Colors.red.shade600,
-                                  textColor: Colors.white,
-                                  backgroundRadius: 5
-                              );
-                            }else{
-                              DateTime now = DateTime.now();
-                              String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-                              int result = await _sayimDBHelper.plansizNakliyeEvrakEkle(cikisDepoNo, girisDepoNo, cikisDepo,girisDepo ,_evrakAciklamaController.text);
-                              if(result > 0) {
-                                setState(() {
-                                  _plansizNakliyeEvraklariGetir(aktarildiGostersinMi);
-                                  Navigator.pop(context);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliyeEvrak(result,cikisDepo)));
-                                });
-                              }else if(result == -1){
-                                Toast.show(
-                                    "Seçtiğiniz depoda bu evrak zaten var tablodan evrağı açıp işleme devam edebilirsiniz.",
-                                    context,
-                                    duration: 2,
-                                    gravity: 3,
+                        Expanded(
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                         style: ElevatedButton.styleFrom(backgroundColor:Colors.green,
+                            shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            side: BorderSide(color: Colors.green)
+                            ), ),
+                            child: Text("Oluştur",style: TextStyle(color: Colors.white),),
+                            onPressed: () async {
+                              if(cikisDepo == "Depo Seçiniz"  || girisDepo == "Depo Seçiniz"){
+                                Fluttertoast.showToast(
+                                    msg:"Evrak oluşturabilmek için çıkış ve giriş depolarını seçmeniz gerekmektedir",
+                                    gravity: ToastGravity.CENTER,
                                     backgroundColor: Colors.red.shade600,
                                     textColor: Colors.white,
-                                    backgroundRadius: 5
                                 );
                               }else{
-                                Toast.show(
-                                    "Evrak oluşturulamadı.",
-                                    context,
-                                    duration: 1,
-                                    gravity: 3,
-                                    backgroundColor: Colors.red.shade600,
-                                    textColor: Colors.white,
-                                    backgroundRadius: 5
-                                );
+                                DateTime now = DateTime.now();
+                                String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                                int result = await _sayimDBHelper.plansizNakliyeEvrakEkle(cikisDepoNo, girisDepoNo, cikisDepo,girisDepo ,_evrakAciklamaController.text);
+                                if(result > 0) {
+                                  setState(() {
+                                    _plansizNakliyeEvraklariGetir(aktarildiGostersinMi);
+                                    Navigator.pop(context);
+                                    //Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliyeEvrak(result,cikisDepo)));
+                                  });
+                                }else if(result == -1){
+                                  Fluttertoast.showToast(
+                                      msg:"Seçtiğiniz depoda bu evrak zaten var tablodan evrağı açıp işleme devam edebilirsiniz.",
+                                      gravity: ToastGravity.CENTER,
+                                      backgroundColor: Colors.red.shade600,
+                                      textColor: Colors.white,
+                                  );
+                                }else{
+                                  Fluttertoast.showToast(
+                                      msg:"Evrak oluşturulamadı.",
+                                      gravity: ToastGravity.CENTER,
+                                      backgroundColor: Colors.red.shade600,
+                                      textColor: Colors.white,
+                                  );
+                                }
                               }
-                            }
-                          },
-                        ),)
+                            },
+                        ),
+                          ),)
                       ],
                     )
                   ],
@@ -930,33 +920,47 @@ class _PlansizNakliyeState extends State<PlansizNakliye> {
     });
   }
 }
-class PlansizNakliyeDataGridSource extends DataGridSource<PlansizNakliyeDataGrid> {
 
-  PlansizNakliyeDataGridSource();
-
-  @override
-  List<PlansizNakliyeDataGrid> get dataSource => plansizNakliyeGridList;
+class PlansizNakliyeDataGridSource extends DataGridSource {
+  List<PlansizNakliyeDataGrid> plansizNakliyeGridList = [];
 
   @override
-  getValue(PlansizNakliyeDataGrid plansizNakliyeDataGrid, String columnName) {
+  Object? getValue(int rowIndex, String columnName) {
+    final plansizNakliyeDataGrid = plansizNakliyeGridList[rowIndex];
+
     switch (columnName) {
       case 'id':
-        return  plansizNakliyeDataGrid.id;
-        break;
+        return plansizNakliyeDataGrid.id;
       case 'girisDepoAdi':
-        return  plansizNakliyeDataGrid.girisDepoAdi;
-        break;
+        return plansizNakliyeDataGrid.girisDepoAdi;
       case 'cikisDepoAdi':
-        return  plansizNakliyeDataGrid.cikisDepoAdi;
-        break;
+        return plansizNakliyeDataGrid.cikisDepoAdi;
       case 'tarih':
-        return  plansizNakliyeDataGrid.tarih;
-        break;
+        return plansizNakliyeDataGrid.tarih;
       default:
         return ' ';
-        break;
     }
   }
+
+  @override
+  int get rowCount => plansizNakliyeGridList.length;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(
+        cells: [
+            Container(
+              alignment: Alignment.center,
+              child: Text("${row.getCells()}"),
+            )
+      //DataGridCell(columnName: 'id', value: row.getCells<int>('id')),
+     // DataGridCell<String>(columnName: 'girisDepoAdi', value: row.getCells<String>('girisDepoAdi')),
+    //  DataGridCell<String>(columnName: 'cikisDepoAdi', value: row.getCells<String>('cikisDepoAdi')),
+    //  DataGridCell<String>(columnName: 'tarih', value: row.getCells<String>('tarih')),
+    ]);
+  }
+
+
   void updateDataGridSource() {
     notifyListeners();
   }
@@ -974,5 +978,3 @@ class GonderilecekVeriModel{
 
   GonderilecekVeriModel(this.evrakId,this.evrakAdi,this.basTarih,this.sonTarih,this.depoKodu,this.stokKodu,this.miktar,this.raf);
 }
-
- */

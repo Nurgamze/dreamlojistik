@@ -1,16 +1,15 @@
-/*
 
-import 'package:dream_lojistik/LocalDB/EvraklarDB.dart';
-import 'package:dream_lojistik/Modeller/DreamCogsGif.dart';
+import 'package:dreamlojistik/LocalDB/EvraklarDB.dart';
+import 'package:dreamlojistik/Modeller/DreamCogsGif.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
 import 'LocalDB/DatabaseHelper.dart';
 import 'Modeller/GridListeler.dart';
 import 'Modeller/GridModeller.dart';
@@ -130,7 +129,9 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
                       padding: EdgeInsets.only(bottom: 1,left: 1,right: 1),
                       child: SfDataGridTheme(
                         data: SfDataGridThemeData(
-                            selectionStyle: DataGridCellStyle(
+                          selectionColor: Colors.yellow,
+                          headerColor: Color.fromRGBO(235, 90, 12, 1),
+                         /*   selectionStyle: DataGridCellStyle(
                                 backgroundColor: Colors.blue,
                                 textStyle: TextStyle(
                                   fontSize: 12,
@@ -142,14 +143,15 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
                                 sortIconColor: Colors.white,
                                 textStyle:
                                 TextStyle(color: Colors.white,fontSize: 12),
-                                backgroundColor: Color.fromRGBO(235, 90, 12, 1))),
+                                backgroundColor: Color.fromRGBO(235, 90, 12, 1))*/
+                        ),
                         child: SfDataGrid(
                           selectionMode: SelectionMode.single,
                           onCellTap: (value) {
                             Future.delayed(Duration(milliseconds: 50), (){
                               FocusScope.of(context).requestFocus(new FocusNode());
                               if(value.rowColumnIndex.rowIndex >0){
-                                PlansizNakliyeEvrakDataGrid evrak = _dataGridController.selectedRow;
+                                PlansizNakliyeEvrakDataGrid evrak = _dataGridController.selectedRow as PlansizNakliyeEvrakDataGrid;
                                 showDialog(
                                     context: context,
                                     barrierColor: Colors.black.withOpacity(0.5),
@@ -161,10 +163,10 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
                           },
                           source: _sayimEvrakDataSource,
                           columns: <GridColumn> [
-                            GridTextColumn(mappingName: 'stokKodu',headerText : "STOK KODU",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,headerPadding: EdgeInsets.only(left:10,right: 10),),
-                            GridTextColumn(mappingName: 'stokAdi',headerText : "STOK ADI",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,headerPadding: EdgeInsets.only(left:10,right: 10),),
-                            GridTextColumn(mappingName: 'miktar',headerText : "MİKTAR",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,headerPadding: EdgeInsets.only(left:10,right: 10),),
-                            GridTextColumn(mappingName: 'birim',headerText : "BİRİM",padding : EdgeInsets.only(left:10,right: 10),columnWidthMode : ColumnWidthMode.lastColumnFill,headerPadding: EdgeInsets.only(left:10,right: 10),),
+                            GridColumn(columnName: 'stokKodu',label : Container(child: Text("STOK KODU"),padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                            GridColumn(columnName: 'stokAdi',label : Container(child: Text("STOK ADI"),padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                            GridColumn(columnName: 'miktar',label : Container(child: Text("MİKTAR"),padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                            GridColumn(columnName: 'birim',label : Container(child: Text("BİRİM"),padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
                           ],
                           gridLinesVisibility: GridLinesVisibility.vertical,
                           headerGridLinesVisibility: GridLinesVisibility.vertical,
@@ -173,12 +175,13 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
                           allowTriStateSorting: true,
                           rowHeight: 30,
                           controller: this._dataGridController,
+                          /*
                           onQueryRowStyle: (QueryRowStyleArgs args) {
                             if (args.rowIndex % 2 == 0) {
                               return DataGridCellStyle(backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
                             }
                             return DataGridCellStyle(backgroundColor: Colors.grey[300],textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
-                          },
+                          },*/
                         ),
                       ),
                     ),
@@ -292,19 +295,22 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
             Expanded(child: Container(
               child: SfDataGridTheme(
                 data: SfDataGridThemeData(
-                    selectionStyle: DataGridCellStyle(
+                  selectionColor: Colors.yellow,
+                  headerColor: Color.fromRGBO(235, 90, 12, 1),
+                 /*   selectionStyle: DataGridCellStyle(
                         backgroundColor: Colors.blue,
                         textStyle: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
                         )
-                    ),
-                    headerStyle: DataGridHeaderCellStyle(
+                    ),*/
+                   /* headerStyle: DataGridHeaderCellStyle(
                         sortIconColor: Colors.white,
                         textStyle:
                         TextStyle(color: Colors.white,fontSize: 12),
-                        backgroundColor: Color.fromRGBO(235, 90, 12, 1))),
+                        backgroundColor: Color.fromRGBO(235, 90, 12, 1))*/
+                ),
                 child: SfDataGrid(
                   selectionMode: SelectionMode.single,
                   columnWidthMode: ColumnWidthMode.lastColumnFill,
@@ -314,12 +320,12 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
                     Future.delayed(Duration(milliseconds: 50), (){
                       FocusScope.of(context).requestFocus(new FocusNode());
                       if(value.rowColumnIndex.rowIndex >0){
-                        SayimEvrakStoklarDataGrid stok = _sayimEvrakStoklarDtaGridController.selectedRow;
+                        SayimEvrakStoklarDataGrid stok = _sayimEvrakStoklarDtaGridController.selectedRow as SayimEvrakStoklarDataGrid;
                         Navigator.pop(context);
                         showDialog(
                             context: context,
                             barrierColor: Colors.black.withOpacity(0.5),
-                            builder: (context) => SingleChildScrollView(child: plansizNakliyeEvrakDetayDialog(stok.stokKodu, stok.stokAdi, stok.birim,false))
+                            builder: (context) => SingleChildScrollView(child: plansizNakliyeEvrakDetayDialog(stok.stokKodu.toString(), stok.stokAdi.toString(), stok.birim.toString(),false))
                         );
                         this._sayimEvrakStoklarDtaGridController.selectedIndex = -1;
                       }
@@ -328,26 +334,28 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
                   frozenColumnsCount: 1,
                   source: _sayimEvrakStoklarDataGridSource,
                   columns: <GridColumn> [
-                    GridTextColumn(mappingName: 'stokKodu', headerText : "STOK KODU", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'stokAdi', headerText : "STOK ADI", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'miktar', headerText : "DEPODAKİ MİKTAR", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'marka', headerText : "MARKA", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'reyon', headerText : "REYON", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'birim', headerText : "BİRİM", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'anaGrup', headerText : "ANA GRUP", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
-                    GridTextColumn(mappingName: 'altGrup', headerText : "ALT GRUP", padding : EdgeInsets.only(left:10,right: 10), headerPadding : EdgeInsets.only(left:10,right: 10)),
+
+                    GridColumn(columnName: 'stokKodu',label : Container( child: Text("STOK KODU"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'stokAdi',label : Container( child: Text("STOK ADI"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'miktar',label : Container( child: Text("DEPODAKİ MİKTAR"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'marka',label : Container( child: Text("MARKA"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'reyon',label : Container( child: Text("REYON"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'birim',label : Container( child: Text("BİRİM"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'anaGrup',label : Container( child: Text("ANA GRUP"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
+                    GridColumn(columnName: 'altGrup',label : Container( child: Text("ALT GRUP"), padding : EdgeInsets.only(left:10,right: 10), alignment : Alignment.centerLeft ,),),
                   ],
                   gridLinesVisibility: GridLinesVisibility.vertical,
                   headerGridLinesVisibility: GridLinesVisibility.vertical,
                   headerRowHeight: 30,
                   rowHeight: 30,
                   controller: this._sayimEvrakStoklarDtaGridController,
+                       /*
                   onQueryRowStyle: (QueryRowStyleArgs args) {
                     if (args.rowIndex % 2 == 0) {
                       return DataGridCellStyle(backgroundColor: Colors.grey[300],textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
                     }
                     return DataGridCellStyle(backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w500));
-                  },
+                  },*/
                 ),
               ),
             )),
@@ -369,7 +377,7 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
 
   }
 
-  Widget plansizNakliyeEvrakDetayDialog(String stokKodu,String stokAdi,String birim,bool duzenleMi,{String miktar = "-1",int id}) {
+  Widget plansizNakliyeEvrakDetayDialog(String stokKodu,String stokAdi,String birim,bool duzenleMi,{String miktar = "-1",int? id}) {
     _miktarSonController.clear();
     _miktarIlkController.clear();
     birim = birim == null ? birim = "" : birim;
@@ -523,105 +531,106 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                FlatButton(
+                SizedBox(
                   height: 40,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.blue.shade800)
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade800,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: BorderSide(color: Colors.blue.shade800)
+                    ), ),
+
+                    child: Text("İptal",style: TextStyle(color: Colors.white),),
+                    onPressed: () => Navigator.pop(context),
                   ),
-                  color: Colors.blue.shade800,
-                  child: Text("İptal",style: TextStyle(color: Colors.white),),
-                  onPressed: () => Navigator.pop(context),
                 ),
                 Visibility(
                   visible: duzenleMi,
-                  child: FlatButton(
-                      height: 40,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          side: BorderSide(color: Colors.red)
-                      ),
-                      color: Colors.red,
-                      child: Text("Sil",style: TextStyle(color: Colors.white),),
-                      onPressed: () async {
-                        DateTime now = DateTime.now();
-                        String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-                        var result = await _sayimDBHelper.plansizNakliyeEvrakDetaySil(id);
-                        if(result == 1){
-                          setState(() {
-                            _plansizNakliyeEvraklariniGetir(widget.evrakId);
-                          });
+                  child: SizedBox(
+                    height: 40,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              side: BorderSide(color: Colors.red)
+                          ),
+                        ),
+                        child: Text("Sil",style: TextStyle(color: Colors.white),),
+                        onPressed: () async {
+                          DateTime now = DateTime.now();
+                          String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                          var result = await _sayimDBHelper.plansizNakliyeEvrakDetaySil(id!);
+                          if(result == 1){
+                            setState(() {
+                              _plansizNakliyeEvraklariniGetir(widget.evrakId);
+                            });
+                          }
+                          await _sayimDBHelper.sayimEvrakTarihGuncelle(formattedDate,widget.evrakId);
+                          Navigator.pop(context);
                         }
-                        await _sayimDBHelper.sayimEvrakTarihGuncelle(formattedDate,widget.evrakId);
-                        Navigator.pop(context);
-                      }
+                    ),
                   ),
                 ),
-                FlatButton(
+                SizedBox(
                   height: 40,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: Colors.green)
-                  ),
-                  color: Colors.green,
-                  child: Text("Kaydet",style: TextStyle(color: Colors.white),),
-                  onPressed: () async {
-                    DateTime now = DateTime.now();
-                    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-                    var raf = _rafController.text == null ? "" :  _rafController.text;
-                    var miktarIlk = _miktarIlkController.text == "" ? 0 : int.parse(_miktarIlkController.text);
-                    var miktarSon = _miktarSonController.text == "" ? 0 : int.parse(_miktarSonController.text);
-                    if(miktarIlk == 0 && miktarSon <= 0){
-                      Toast.show(
-                          "Miktarı doğru girdinizden emim olup tekrar deneyin...",
-                          context,
-                          duration: 1,
-                          gravity: 3,
-                          backgroundColor: Colors.red.shade600,
-                          textColor: Colors.white,
-                          backgroundRadius: 5
-                      );
-                    }else{
-                      if(duzenleMi){
-                        var result = await _sayimDBHelper.plansizNakliyeEvrakDetayUpdate(id, "$miktarIlk.$miktarSon");
-                        if(result > 0){
-                          Navigator.pop(context);
-                          setState(() {
-                            _plansizNakliyeEvraklariniGetir(widget.evrakId);
-                          });
-                        }else{
-                          Toast.show(
-                              "Kalem kaydedilirken sorun oluştu",
-                              context,
-                              duration: 1,
-                              gravity: 3,
-                              backgroundColor: Colors.red.shade600,
-                              textColor: Colors.white,
-                              backgroundRadius: 5
-                          );
-                        }
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor:  Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: BorderSide(color: Colors.green)
+                    ),),
+                    child: Text("Kaydet",style: TextStyle(color: Colors.white),),
+                    onPressed: () async {
+                      DateTime now = DateTime.now();
+                      String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                      var raf = _rafController.text == null ? "" :  _rafController.text;
+                      var miktarIlk = _miktarIlkController.text == "" ? 0 : int.parse(_miktarIlkController.text);
+                      var miktarSon = _miktarSonController.text == "" ? 0 : int.parse(_miktarSonController.text);
+                      if(miktarIlk == 0 && miktarSon <= 0){
+                        Fluttertoast.showToast(
+                            msg: 'Miktarı doğru girdinizden emim olup tekrar deneyin...',
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: Colors.red.shade600,
+                            textColor: Colors.white,
+                        );
                       }else{
-                        var result = await _sayimDBHelper.plansizNakliyeEvrakDetayEkle(stokKodu, stokAdi, widget.evrakId, "$miktarIlk.$miktarSon", birim);
-                        print(result);
-                        if(result > 0){
-                          Navigator.pop(context);
-                          setState(() {
-                            _plansizNakliyeEvraklariniGetir(widget.evrakId);
-                          });
+                        if(duzenleMi){
+                          var result = await _sayimDBHelper.plansizNakliyeEvrakDetayUpdate(id!, "$miktarIlk.$miktarSon");
+                          if(result > 0){
+                            Navigator.pop(context);
+                            setState(() {
+                              _plansizNakliyeEvraklariniGetir(widget.evrakId);
+                            });
+                          }else{
+                            Fluttertoast.showToast(
+                                msg: 'Kalem kaydedilirken sorun oluştu',
+                                gravity:ToastGravity.CENTER,
+                                backgroundColor: Colors.red.shade600,
+                                textColor: Colors.white,
+                            );
+                          }
                         }else{
-                          Toast.show(
-                              "Kalem kaydedilirken sorun oluştu",
-                              context,
-                              duration: 1,
-                              gravity: 3,
-                              backgroundColor: Colors.red.shade600,
-                              textColor: Colors.white,
-                              backgroundRadius: 5
-                          );
+                          var result = await _sayimDBHelper.plansizNakliyeEvrakDetayEkle(stokKodu, stokAdi, widget.evrakId, "$miktarIlk.$miktarSon", birim);
+                          print(result);
+                          if(result > 0){
+                            Navigator.pop(context);
+                            setState(() {
+                              _plansizNakliyeEvraklariniGetir(widget.evrakId);
+                            });
+                          }else{
+                             Fluttertoast.showToast(
+                                msg: 'Kalem kaydedilirken sorun oluştu',
+                                gravity: ToastGravity.CENTER,
+                                backgroundColor: Colors.red.shade600,
+                                textColor: Colors.white,
+
+                            );
+                          }
                         }
                       }
-                    }
-                  },
+                    },
+                  ),
                 ),
               ],
             )
@@ -633,7 +642,8 @@ class _PlansizNakliyeEvrakState extends State<PlansizNakliyeEvrak> {
 }
 
 final PlansizNakliyeEvrakDataSource _sayimEvrakDataSource = PlansizNakliyeEvrakDataSource();
-class PlansizNakliyeEvrakDataSource extends DataGridSource<PlansizNakliyeEvrakDataGrid> {
+
+class PlansizNakliyeEvrakDataSource extends DataGridSource {
 
   PlansizNakliyeEvrakDataSource();
 
@@ -660,17 +670,23 @@ class PlansizNakliyeEvrakDataSource extends DataGridSource<PlansizNakliyeEvrakDa
         break;
     }
   }
+
+  @override
+  DataGridRowAdapter? buildRow(DataGridRow row) {
+    // TODO: implement buildRow
+    throw UnimplementedError();
+  }
 }
 
 final _SayimEvrakStoklarDataGridSource _sayimEvrakStoklarDataGridSource = _SayimEvrakStoklarDataGridSource();
-class _SayimEvrakStoklarDataGridSource extends DataGridSource<SayimEvrakStoklarDataGrid> {
+class _SayimEvrakStoklarDataGridSource extends DataGridSource {
 
   _SayimEvrakStoklarDataGridSource();
 
   @override
   List<SayimEvrakStoklarDataGrid> get dataSource => sayimEvrakStoklarGridList;
   @override
-  Object getValue(SayimEvrakStoklarDataGrid _sayimEvrakStoklarDataGrid, String columnName) {
+  String? getValue(SayimEvrakStoklarDataGrid _sayimEvrakStoklarDataGrid, String columnName) {
     switch (columnName) {
       case 'stokKodu':
         return  _sayimEvrakStoklarDataGrid.stokKodu;
@@ -716,7 +732,11 @@ class _SayimEvrakStoklarDataGridSource extends DataGridSource<SayimEvrakStoklarD
   void updateDataGridSource() {
     notifyListeners();
   }
+
+  @override
+  DataGridRowAdapter? buildRow(DataGridRow row) {
+    // TODO: implement buildRow
+    throw UnimplementedError();
+  }
 }
 
-
- */

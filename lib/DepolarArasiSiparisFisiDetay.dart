@@ -14,7 +14,7 @@ import 'package:toast/toast.dart';
 import 'LocalDB/DatabaseHelper.dart';
 import 'Modeller/GridListeler.dart';
 import 'Modeller/GridModeller.dart';
-import 'Modeller/ProviderHelper.dart';
+import 'Modeller/ProviderHelper.dart'
 import 'Modeller/Sabitler.dart';
 import 'package:provider/provider.dart';
 

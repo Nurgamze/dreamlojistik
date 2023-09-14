@@ -135,7 +135,7 @@ class _AnaEkranState extends State<AnaEkran> {
                             width: (MediaQuery.of(context).size.width-30)/2,
                           ),
                           onTap: () {
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => Siparis()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Siparis()));
                           }
                       )
                     ],
@@ -180,7 +180,6 @@ class _AnaEkranState extends State<AnaEkran> {
                             width: (MediaQuery.of(context).size.width-30)/2,
                           ),
                           onTap: () {
-                            return;
                             Navigator.push(context, MaterialPageRoute(builder: (context) => Giris()));
                           }
                       ),
@@ -221,7 +220,6 @@ class _AnaEkranState extends State<AnaEkran> {
                             width: (MediaQuery.of(context).size.width-30)/2,
                           ),
                           onTap: () {
-                            return;
                             Navigator.push(context, MaterialPageRoute(builder: (context) => Cikis()));
                           }
                       )
@@ -268,7 +266,6 @@ class _AnaEkranState extends State<AnaEkran> {
                             width: (MediaQuery.of(context).size.width-30)/2,
                           ),
                           onTap: () {
-                            return;
                             Navigator.push(context, MaterialPageRoute(builder: (context) => KaliteKontrol()));
                           }
                       ),
@@ -363,38 +360,49 @@ class _AnaEkranState extends State<AnaEkran> {
     Navigator.pop(context);
   }
 
-  downloadFile() async {
+  Future<bool> downloadFile() async {
     var dir = await getApplicationDocumentsDirectory();
-    String dirPath = dir.path + "/flutter.zip'";
+    String dirPath = dir.path + "/flutter.zip";
     String dbPath = dir.path + "/flutter.db";
-    try{
-      response = await dio.download("${Sabitler.url}/api/FileDownloading/download",dirPath,options: Options(headers: {"apiKey" : Sabitler.apiKey}));
+    try {
+      Response response = await Dio().download(
+        "${Sabitler.url}/api/FileDownloading/download",
+        dirPath,
+        options: Options(headers: {"apiKey": Sabitler.apiKey}),
+      );
 
-    } catch(e){
+      if (response.statusCode == 200) {
+        File fileTry = File(dirPath);
+        final bytes = File(dirPath).readAsBytesSync();
 
-      print(e);
-    }
-    File fileTry = new File(dirPath);
-    final bytes = File(dirPath).readAsBytesSync();
-
-    // Decode the Zip file
-    final archive = ZipDecoder().decodeBytes(bytes);
-    for (final file in archive) {
-      print(file.name);
-      if(file.name == "flutter.db"){
-        if (file.isFile) {
-          final data = file.content as List<int>;
-          File(dbPath)
-            ..createSync(recursive: true)
-            ..writeAsBytesSync(data);
-        } else {
-          Directory(dbPath)
-            ..create(recursive: true);
+        // Decode the Zip file
+        final archive = ZipDecoder().decodeBytes(bytes);
+        for (final file in archive) {
+          print(file.name);
+          if (file.name == "flutter.db") {
+            if (file.isFile) {
+              final data = file.content as List<int>;
+              File(dbPath)
+                ..createSync(recursive: true)
+                ..writeAsBytesSync(data);
+            } else {
+              Directory(dbPath)
+                ..create(recursive: true);
+            }
+          }
         }
+        return true;
+      } else {
+        print("Download failed with status code: ${response.statusCode}");
+        return false;
       }
+    } catch (e) {
+      print("Error: $e");
+      return false;
     }
-    if(response.statusCode == 200) return true;
-    else return false;
   }
+
+
+
 
 }

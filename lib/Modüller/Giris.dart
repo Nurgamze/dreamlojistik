@@ -1,5 +1,6 @@
 import 'package:dreamlojistik/AnaEkranYdk.dart';
 import 'package:dreamlojistik/PlansizNakliye.dart';
+import 'package:dreamlojistik/PlansizNakliyeEvrak.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,10 @@ class Giris extends StatefulWidget {
 
 
 class _GirisState extends State<Giris> {
+  int?  evrakId=5;
+
+  String?  depoAdi="Keyap";
+
 
 
   @override
@@ -75,7 +80,7 @@ class _GirisState extends State<Giris> {
                         width: (MediaQuery.of(context).size.width-35)/2,
                       ),
                       onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliye()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliye()));
                       }
                   ),
                   SizedBox(width: 5,),
@@ -115,7 +120,7 @@ class _GirisState extends State<Giris> {
                         width: (MediaQuery.of(context).size.width-35)/2,
                       ),
                       onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => AnaEkranYdk()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PlansizNakliyeEvrak(evrakId!, depoAdi!)));
                       }
                   )
                 ],

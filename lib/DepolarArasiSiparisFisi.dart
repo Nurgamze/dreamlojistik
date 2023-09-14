@@ -1,8 +1,6 @@
-/*
-
-import 'dart:convert';
-
-import 'package:dream_lojistik/DepolarArasiSiparisFisiDetay.dart';
+ /*
+ import 'dart:convert';
+import 'package:dreamlojistik/DepolarArasiSiparisFisiDetay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,10 +12,8 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
-
 import 'LocalDB/DatabaseHelper.dart';
 import 'LocalDB/EvraklarDB.dart';
 import 'Modeller/Foksiyonlar.dart';
@@ -997,5 +993,4 @@ class DASPGonderilecekVeriModel{
 
   DASPGonderilecekVeriModel(this.evrakId,this.tarih,this.stokKodu,this.miktar,this.girDepoNo,this.cikDepoNo,this.aciklama);
 }
-
- */
+*/
